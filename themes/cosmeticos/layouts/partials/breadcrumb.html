@@ -1,0 +1,46 @@
+{{ if not .IsHome }}
+{{ $url := .RelPermalink }}
+{{ $url = strings.TrimSuffix "/" $url }}
+{{ $parts := split $url "/" }}
+{{ $parts = after 1 $parts }}
+{{ $parts = first (sub (len $parts) 1) $parts }}
+
+{{ if gt (len $parts) 0 }}
+<nav aria-label="Breadcrumb" class="breadcrumb">
+    <div class="breadcrumb__container">
+        <ol class="breadcrumb__list" itemscope itemtype="https://schema.org/BreadcrumbList">
+            {{ $position := 1 }}
+            
+            <li class="breadcrumb__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                <a itemprop="item" href="/" class="breadcrumb__link breadcrumb__link--home">
+                    <span itemprop="name">Inicio</span>
+                </a>
+                <meta itemprop="position" content="{{ $position }}">
+            </li>
+            {{ $position = add $position 1 }}
+            
+            {{ $builtPath := "" }}
+            {{ range $index, $part := $parts }}
+                {{ if ne $part "" }}
+                {{ $builtPath = printf "%s/%s" $builtPath $part }}
+                {{ $page := $.Site.GetPage $builtPath }}
+                
+                <li class="breadcrumb__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                    {{ if eq $index (sub (len $parts) 1) }}
+                    <span itemprop="name" class="breadcrumb__current" aria-current="page">{{ if $page }}{{ $page.Title }}{{ else }}{{ humanize $part }}{{ end }}</span>
+                    <meta itemprop="item" content="{{ $.Permalink }}">
+                    {{ else }}
+                    <a itemprop="item" href="{{ $builtPath }}/" class="breadcrumb__link">
+                        <span itemprop="name">{{ if $page }}{{ $page.Title }}{{ else }}{{ humanize $part }}{{ end }}</span>
+                    </a>
+                    {{ end }}
+                    <meta itemprop="position" content="{{ $position }}">
+                </li>
+                {{ $position = add $position 1 }}
+                {{ end }}
+            {{ end }}
+        </ol>
+    </div>
+</nav>
+{{ end }}
+{{ end }}

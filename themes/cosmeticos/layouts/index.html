@@ -1,0 +1,65 @@
+{{ define "main" }}
+<section class="hero">
+    <div class="hero__content">
+        <h1 class="hero__title">Guía Definitiva de Cosméticos Coreanos</h1>
+        <p class="hero__subtitle">Descubre los mejores productos K-Beauty, rutinas paso a paso y dónde comprar en Colombia. Todo el skincare coreano en un solo lugar.</p>
+        
+        <div class="hero__stats">
+            <div class="stat">
+                <span class="stat__number">50+</span>
+                <span class="stat__label">Marcas analizadas</span>
+            </div>
+            <div class="stat">
+                <span class="stat__number">200+</span>
+                <span class="stat__label">Productos reseñados</span>
+            </div>
+            <div class="stat">
+                <span class="stat__number">5</span>
+                <span class="stat__label">Ciudades de Colombia</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="categories">
+    <h2 class="section__title">Explora por Categoría</h2>
+    
+    <div class="categories__grid">
+        {{ range .Site.Menus.main }}
+        {{ if ne .Weight 10 }}
+        <a href="{{ .URL }}" class="category-card">
+            <span class="category-card__title">{{ .Name }}</span>
+            <span class="category-card__arrow">→</span>
+        </a>
+        {{ end }}
+        {{ end }}
+    </div>
+</section>
+
+{{ $featured := where .Site.RegularPages "Params.featured" true }}
+{{ if $featured }}
+<section class="featured">
+    <h2 class="section__title">Destacados 2026</h2>
+    
+    <div class="featured__grid">
+        {{ range first 6 $featured }}
+        {{ partial "card.html" . }}
+        {{ end }}
+    </div>
+    
+    <a href="/mejores/" class="btn btn--secondary">Ver todos los rankings →</a>
+</section>
+{{ end }}
+
+<section class="newsletter">
+    <div class="newsletter__content">
+        <h2>Únete a la comunidad K-Beauty</h2>
+        <p>Recibe los mejores productos, ofertas y tips de skincare coreano directo a tu correo.</p>
+        
+        <form class="newsletter__form" action="#" method="post">
+            <input type="email" name="email" placeholder="tu@email.com" required class="newsletter__input">
+            <button type="submit" class="btn btn--primary">Suscribirme</button>
+        </form>
+    </div>
+</section>
+{{ end }}

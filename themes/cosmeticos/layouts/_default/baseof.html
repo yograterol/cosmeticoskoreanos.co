@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.LanguageCode | default "es-CO" }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    {{- if .IsHome -}}
+    <title>{{ .Site.Title }}</title>
+    <meta name="description" content="{{ .Site.Params.description }}">
+    {{- else -}}
+    <title>{{ .Title }} | {{ .Site.Title }}</title>
+    <meta name="description" content="{{ .Params.meta_description | default (.Summary | plainify | truncate 160) | default .Site.Params.description }}">
+    {{- end -}}
+    
+    <meta name="keywords" content="{{ if .Params.keywords }}{{ delimit .Params.keywords ", " }}{{ else }}{{ delimit .Site.Params.keywords ", " }}{{ end }}">
+    <meta name="author" content="{{ .Params.author | default .Site.Params.author }}">
+    
+    <!-- Canonical -->
+    <link rel="canonical" href="{{ .Permalink }}">
+    
+    <!-- Robots -->
+    <meta name="robots" content="index, follow">
+    {{- if .Params.noindex -}}
+    <meta name="robots" content="noindex">
+    {{- end -}}
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="{{ if .Params.type }}article{{ else }}website{{ end }}">
+    <meta property="og:title" content="{{ .Params.og_title | default .Title }}">
+    <meta property="og:description" content="{{ .Params.og_description | default .Params.meta_description | default (.Summary | plainify | truncate 160) }}">
+    <meta property="og:url" content="{{ .Permalink }}">
+    <meta property="og:site_name" content="{{ .Site.Title }}">
+    <meta property="og:image" content="{{ .Params.og_image | default .Site.Params.og_image | absURL }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="es_CO">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ .Title }}">
+    <meta name="twitter:description" content="{{ .Params.meta_description | default (.Summary | plainify | truncate 160) }}">
+    <meta name="twitter:image" content="{{ .Params.og_image | default .Site.Params.og_image | absURL }}">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/webp" href="/favicon.webp">
+    
+    <!-- Styles -->
+    {{ $css := resources.Get "css/main.css" | resources.Minify }}
+    <link rel="stylesheet" href="{{ $css.RelPermalink }}">
+    
+    <!-- JSON-LD Schema -->
+    {{ if .IsHome }}
+    {{- partial "schemas/organization.html" . -}}
+    {{- partial "schemas/website.html" . -}}
+    {{ else }}
+    {{- partial "schemas/breadcrumb.html" . -}}
+    {{ if eq .Params.type "product" }}
+    {{- partial "schemas/product.html" . -}}
+    {{ else if eq .Params.type "article" }}
+    {{- partial "schemas/article.html" . -}}
+    {{ else }}
+    {{- partial "schemas/webpage.html" . -}}
+    {{ end }}
+    {{ end }}
+    
+    <!-- Preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#FF6B9D">
+</head>
+<body>
+    {{- partial "header.html" . -}}
+    
+    <main id="main-content" role="main">
+        {{- partial "breadcrumb.html" . -}}
+        {{- block "main" . }}{{ end -}}
+    </main>
+    
+    {{- partial "footer.html" . -}}
+    
+    {{ $js := resources.Get "js/main.js" | resources.Minify }}
+    <script src="{{ $js.RelPermalink }}" defer></script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+{{ define "main" }}
+<article class="article" itemscope itemtype="https://schema.org/Article">
+    <header class="article__header">
+        {{ if .Params.hero_image }}
+        <figure class="article__hero">
+            <img src="{{ .Params.hero_image }}" alt="{{ .Title }}" loading="eager" decoding="async">
+        </figure>
+        {{ end }}
+        
+        <h1 class="article__title" itemprop="headline">{{ .Title }}</h1>
+        
+        {{ if .Params.summary }}
+        <p class="article__summary" itemprop="description">{{ .Params.summary }}</p>
+        {{ end }}
+        
+        <div class="article__meta">
+            {{ if .Params.marca }}
+            <span class="article__brand">{{ range .Params.marca }}{{ . }}{{ end }}</span>
+            {{ end }}
+            <time class="article__date" itemprop="datePublished" datetime="{{ .Date.Format "2006-01-02" }}">
+                {{ .Date.Format "2 de enero de 2006" }}
+            </time>
+        </div>
+    </header>
+    
+    <div class="article__content" itemprop="articleBody">
+        {{ .Content }}
+    </div>
+    
+    {{ if .Params.faqs }}
+    <section class="article__faqs">
+        <h2>Preguntas Frecuentes</h2>
+        {{ range .Params.faqs }}
+        <details class="faq">
+            <summary class="faq__question">{{ .question }}</summary>
+            <div class="faq__answer">{{ .answer | markdownify }}</div>
+        </details>
+        {{ end }}
+    </section>
+    {{ end }}
+    
+    {{ if .Params.ingredientes }}
+    <section class="article__ingredients">
+        <h2>Ingredientes Destacados</h2>
+        <ul class="ingredient-list">
+            {{ range .Params.ingredientes }}
+            <li><a href="/ingredientes/{{ . | urlize }}/">{{ . }}</a></li>
+            {{ end }}
+        </ul>
+    </section>
+    {{ end }}
+    
+    {{ if .Params.related }}
+    <section class="article__related">
+        <h2>Contenido Relacionado</h2>
+        <div class="related-grid">
+            {{ range .Params.related }}
+            {{ with $.Site.GetPage . }}
+            <article class="card">
+                <a href="{{ .RelPermalink }}" class="card__link">
+                    {{ if .Params.hero_image }}
+                    <img src="{{ .Params.hero_image }}" alt="{{ .Title }}" loading="lazy" class="card__image">
+                    {{ end }}
+                    <h3 class="card__title">{{ .Title }}</h3>
+                    <p class="card__summary">{{ .Params.summary | truncate 100 }}</p>
+                </a>
+            </article>
+            {{ end }}
+            {{ end }}
+        </div>
+    </section>
+    {{ end }}
+</article>
+{{ end }}

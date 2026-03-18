@@ -1,0 +1,14 @@
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "{{ .Site.Params.organization.name }}",
+  "url": "{{ .Site.Params.organization.url }}",
+  "logo": "{{ .Site.Params.organization.logo | absURL }}",
+  "sameAs": [
+    {{ with .Site.Params.social.instagram }}"https://instagram.com/{{ . }}",{{ end }}
+    {{ with .Site.Params.social.tiktok }}"https://tiktok.com/@{{ . }}"{{ end }}
+  ],
+  "description": "{{ .Site.Params.description }}"
+}
+</script>
