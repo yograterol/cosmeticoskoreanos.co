@@ -1,0 +1,11 @@
+{
+  "name": "cosmeticoskoreanos",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "hugo --minify",
+    "og:generate": "node scripts/generate-og.js"
+  },
+  "devDependencies": {
+    "puppeteer": "^21.0.0"
+  }
+}
