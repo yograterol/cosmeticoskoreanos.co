@@ -204,6 +204,118 @@ Cada página debe incluir:
 
 ---
 
+## 🖼️ OpenGraph - Generación Automática
+
+### Requisitos Previos
+- Hugo instalado (`brew install hugo`)
+- Navegador (Chrome/Edge) para screenshots
+- `cwebp` instalado (`brew install webp`)
+
+### Flujo de Generación de OG Images (Automatizado)
+
+#### Método 1: Screenshot del Sitio Local (Recomendado)
+
+**Paso 1:** Iniciar servidor Hugo local
+```bash
+hugo server -D --port 1313
+```
+
+**Paso 2:** Tomar screenshots de cada página
+Abrir navegador en tamaño 1200x630 y capturar:
+- Homepage: `http://localhost:1313/`
+- Marcas: `http://localhost:1313/marcas/[marca]/`
+- Rankings: `http://localhost:1313/mejores/[categoria]/`
+- Preocupaciones: `http://localhost:1313/preocupaciones/[tema]/`
+
+**Paso 3:** Convertir a WebP
+```bash
+cwebp -q 82 screenshot.png -o static/og/[slug].webp
+```
+
+**Paso 4:** Actualizar frontmatter del contenido
+```yaml
+og_image: "/og/[slug].webp"
+```
+
+#### Método 2: Script Automático (Experimental)
+
+```javascript
+// scripts/generate-og.js
+const puppeteer = require('puppeteer');
+const fs = require('fs');
+const path = require('path');
+
+const PAGES = [
+  { url: 'http://localhost:1313/', output: 'homepage.webp' },
+  { url: 'http://localhost:1313/marcas/cosrx/', output: 'marcas-cosrx.webp' },
+  // ... más páginas
+];
+
+async function generateOGImages() {
+  const browser = await puppeteer.launch();
+  
+  for (const page of PAGES) {
+    const pageObj = await browser.newPage();
+    await pageObj.setViewport({ width: 1200, height: 630 });
+    await pageObj.goto(page.url, { waitUntil: 'networkidle0' });
+    await pageObj.screenshot({
+      path: path.join('./static/og', page.output.replace('.webp', '.png'))
+    });
+    await pageObj.close();
+  }
+  
+  await browser.close();
+}
+
+generateOGImages();
+```
+
+Instalar dependencias:
+```bash
+npm install puppeteer
+node scripts/generate-og.js
+```
+
+Luego convertir PNG a WebP:
+```bash
+for img in static/og/*.png; do
+  cwebp -q 82 "$img" -o "${img%.png}.webp"
+  rm "$img"
+done
+```
+
+### Ventajas del Método de Screenshot
+
+1. **Fidelidad exacta**: El OG image muestra exactamente cómo se ve la página
+2. **Diseño consistente**: Usa el mismo CSS y branding del sitio
+3. **Automatizable**: Puede hacerse con scripts o manualmente
+4. **Actualizable**: Solo repetir el proceso cuando cambie el diseño
+
+### Especificaciones Técnicas
+
+| Parámetro | Valor |
+|-----------|-------|
+| Dimensiones | 1200 x 630 px |
+| Formato final | WebP (calidad 82) |
+| Ubicación | `/static/og/[slug].webp` |
+| Referencia en frontmatter | `og_image: "/og/[slug].webp"` |
+
+### Ejemplos de OG Images Generadas
+
+- `homepage-generated.webp` (56K)
+- `marcas-cosrx-generated.webp` (59K)
+- `mejores-serums-2026-generated.webp` (31K)
+
+### Notas Importantes
+
+- Los OG images generados incluyen: header, título, contenido real
+- El screenshot captura el scroll de la página → usar viewport fijo
+- Verificar que el servidor Hugo esté corriendo antes de generar
+- Los archivos `-generated.webp` son los screenshots automatizados
+- Los archivos originales `.webp` son imágenes de stock manuales
+
+---
+
 ## 🏷️ Taxonomías
 
 ### Categorías Principales
