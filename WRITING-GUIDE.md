@@ -220,17 +220,30 @@ Cada página debe incluir:
 hugo server -D --port 1313
 ```
 
-**Paso 2:** Tomar screenshots de cada página
-Abrir navegador en tamaño 1200x630 y capturar:
+**Paso 2:** Configurar navegador
+- Abrir navegador DevTools (F12)
+- Toggle device toolbar (Ctrl+Shift+M)
+- Seleccionar "Edit" → "Add custom device"
+- Configurar: **1200 x 630 px**
+- Importante: Debe ser **viewport visible**, NO full page
+
+**Paso 3:** Navegar y capturar
+Abrir cada página en el viewport 1200x630:
 - Homepage: `http://localhost:1313/`
 - Marcas: `http://localhost:1313/marcas/[marca]/`
 - Rankings: `http://localhost:1313/mejores/[categoria]/`
 - Preocupaciones: `http://localhost:1313/preocupaciones/[tema]/`
 
-**Paso 3:** Convertir a WebP
+**Paso 4:** Tomar screenshot
+- Screenshot solo del **viewport visible** (NO full page)
+- Guardar como PNG
+
+**Paso 5:** Convertir a WebP
 ```bash
 cwebp -q 82 screenshot.png -o static/og/[slug].webp
 ```
+
+**⚠️ IMPORTANTE:** El screenshot debe capturar solo el área visible 1200x630, no la página completa con scroll.
 
 **Paso 4:** Actualizar frontmatter del contenido
 ```yaml
