@@ -69,7 +69,22 @@ theme = 'cosmeticos'
 [build]
   writeStats = true
   
+# Disable trailing slashes - output URLs without trailing slash
+[outputFormats]
+  [outputFormats.HTML]
+    mediaType = "text/html"
+    baseName = "index"
+    isPlainText = false
+    notAlternative = true
+    permalinkable = true
+
 [sitemap]
   changefreq = 'monthly'
   filename = 'sitemap.xml'
   priority = 0.5
+
+[uglyURLs = false]
+
+# Alternative: Use URL frontmatter in content files
+# For no trailing slash, content files should use:
+# url = "/marcas/cosrx" (not "/marcas/cosrx/")
