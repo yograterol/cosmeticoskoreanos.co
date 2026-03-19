@@ -1,8 +1,0 @@
-name = "cosmeticoskoreanos-co"
-compatibility_date = "2026-03-18"
-
-[build]
-command = "chmod a+x build.sh && ./build.sh"
-
-[site]
-bucket = "./public"
