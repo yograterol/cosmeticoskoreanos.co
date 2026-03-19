@@ -1,0 +1,22 @@
+{{ if eq .Params.type "product" }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "{{ .Title }}",
+  "image": "{{ .Params.hero_image | default .Site.Params.og_image | absURL }}",
+  "description": "{{ .Params.meta_description | default (.Summary | plainify | truncate 160) }}",
+  "brand": {
+    "@type": "Brand",
+    "name": "{{ range .Params.marca }}{{ . }}{{ end }}"
+  },
+  "offers": {
+    "@type": "Offer",
+    "url": "{{ .Permalink }}",
+    "priceCurrency": "COP",
+    "price": "{{ .Params.schema.product.price }}",
+    "availability": "{{ .Params.schema.product.availability | default "https://schema.org/InStock" }}"
+  }
+}
+</script>
+{{ end }}

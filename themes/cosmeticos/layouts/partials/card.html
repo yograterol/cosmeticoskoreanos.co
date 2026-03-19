@@ -1,0 +1,9 @@
+<article class="card">
+    <a href="{{ .RelPermalink }}" class="card__link">
+        {{ if .Params.hero_image }}
+        <img src="{{ .Params.hero_image }}" alt="{{ .Title }}" loading="lazy" class="card__image">
+        {{ end }}
+        <h3 class="card__title">{{ .Title }}</h3>
+        <p class="card__summary">{{ .Params.summary | truncate 100 }}</p>
+    </a>
+</article>

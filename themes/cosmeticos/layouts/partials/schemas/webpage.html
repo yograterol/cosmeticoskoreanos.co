@@ -1,0 +1,9 @@
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "{{ .Title }}",
+  "description": "{{ .Params.meta_description | default (.Summary | plainify | truncate 160) }}",
+  "url": "{{ .Permalink }}"
+}
+</script>
