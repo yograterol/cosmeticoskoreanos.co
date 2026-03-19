@@ -1,90 +1,76 @@
-baseURL = 'https://cosmeticoskoreanos.co'
-languageCode = 'es-CO'
-title = 'Cosméticos Coreanos | Guía K-Beauty Colombia 2026'
-theme = 'cosmeticos'
+baseURL = "https://cosmeticoskoreanos.co"
+languageCode = "es-CO"
+title = "Cosméticos Coreanos | Guía K-Beauty Colombia 2026"
+theme = "cosmeticos"
 
 [params]
-  description = "La guía definitiva de cosméticos coreanos en Colombia. Reviews, rutinas, mejores productos y dónde comprar K-Beauty en LATAM."
-  author = "CosmeticosKoreanos.co"
-  keywords = ["cosmeticos coreanos", "k-beauty", "skincare coreano", "productos coreanos", "rutina coreana"]
-  og_image = "/og/default.webp"
-  
-  [params.organization]
-    name = "CosmeticosKoreanos.co"
-    url = "https://cosmeticoskoreanos.co"
-    logo = "/logo.webp"
-    
-  [params.social]
-    instagram = "cosmeticoskoreanos"
-    tiktok = "cosmeticoskoreanos"
+description = "La guía definitiva de cosméticos coreanos en Colombia. Reviews, rutinas, mejores productos y dónde comprar K-Beauty en LATAM."
+author = "CosmeticosKoreanos.co"
+keywords = ["cosmeticos coreanos", "k-beauty", "skincare coreano", "productos coreanos", "rutina coreana"]
+og_image = "/og/default.webp"
+
+[params.organization]
+name = "CosmeticosKoreanos.co"
+url = "https://cosmeticoskoreanos.co"
+logo = "/logo.webp"
+
+[params.social]
+instagram = "cosmeticoskoreanos"
+tiktok = "cosmeticoskoreanos"
 
 [menu]
-  [[menu.main]]
-    name = "Inicio"
-    url = "/"
-    weight = 10
-  [[menu.main]]
-    name = "Marcas"
-    url = "/marcas/"
-    weight = 20
-  [[menu.main]]
-    name = "Mejores 2026"
-    url = "/mejores/"
-    weight = 30
-  [[menu.main]]
-    name = "Preocupaciones"
-    url = "/preocupaciones/"
-    weight = 40
-  [[menu.main]]
-    name = "Rutinas"
-    url = "/rutinas/"
-    weight = 50
-  [[menu.main]]
-    name = "Colombia"
-    url = "/colombia/"
-    weight = 60
+[[menu.main]]
+name = "Inicio"
+url = "/"
+weight = 10
+
+[[menu.main]]
+name = "Marcas"
+url = "/marcas"
+weight = 20
+
+[[menu.main]]
+name = "Mejores 2026"
+url = "/mejores"
+weight = 30
+
+[[menu.main]]
+name = "Preocupaciones"
+url = "/preocupaciones"
+weight = 40
+
+[[menu.main]]
+name = "Rutinas"
+url = "/rutinas"
+weight = 50
+
+[[menu.main]]
+name = "Colombia"
+url = "/colombia"
+weight = 60
 
 [taxonomies]
-  category = 'categories'
-  tag = 'tags'
-  marca = 'marcas'
-  tipo_piel = 'tipo-piel'
-  ingrediente = 'ingredientes'
-
-# Permalinks are handled by content directory structure
-# /content/marcas/cosrx.md → /marcas/cosrx/
-# /content/mejores/serums-2026.md → /mejores/serums-2026/
+category = "categories"
+tag = "tags"
+marca = "marcas"
+tipo_piel = "tipo-piel"
+ingrediente = "ingredientes"
 
 [imaging]
-  quality = 85
-  resampleFilter = "lanczos"
+quality = 85
+resampleFilter = "lanczos"
 
 [markup]
-  [markup.goldmark]
-    [markup.goldmark.renderer]
-      unsafe = true
-  [markup.highlight]
-    style = 'github'
+[markup.goldmark]
+[markup.goldmark.renderer]
+unsafe = true
+[markup.highlight]
+style = "github"
 
 [build]
-  writeStats = true
-  
-# Disable trailing slashes - output URLs without trailing slash
-[outputFormats]
-  [outputFormats.HTML]
-    mediaType = "text/html"
-    baseName = "index"
-    isPlainText = false
-    notAlternative = true
-    permalinkable = true
+writeStats = true
 
 [sitemap]
-  changefreq = 'monthly'
-  filename = 'sitemap.xml'
-  priority = 0.5
-
-[uglyURLs = false]
-
-# Alternative: Use URL frontmatter in content files
-# For no trailing slash, content files should use:
-# url = "/marcas/cosrx" (not "/marcas/cosrx/")
+changefreq = "monthly"
+filename = "sitemap.xml"
+priority = 0.5
