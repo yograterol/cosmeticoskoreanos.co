@@ -51,21 +51,9 @@ theme = 'cosmeticos'
   tipo_piel = 'tipo-piel'
   ingrediente = 'ingredientes'
 
-[permalinks]
-  [permalinks.marcas]
-    marcas = '/marcas/:slug/'
-  [permalinks.productos]
-    productos = '/productos/:slug/'
-  [permalinks.mejores]
-    mejores = '/mejores/:slug/'
-  [permalinks.preocupaciones]
-    preocupaciones = '/preocupaciones/:slug/'
-  [permalinks.rutinas]
-    rutinas = '/rutinas/:slug/'
-  [permalinks.comparar]
-    comparar = '/comparar/:slug/'
-  [permalinks.colombia]
-    colombia = '/colombia/:slug/'
+# Permalinks are handled by content directory structure
+# /content/marcas/cosrx.md → /marcas/cosrx/
+# /content/mejores/serums-2026.md → /mejores/serums-2026/
 
 [imaging]
   quality = 85
