@@ -1,10 +1,50 @@
 {{ define "main" }}
-<section class="hero">
+{{ $page := . }}
+
+{{/* Schema for homepage */}}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "url": "{{ .Site.BaseURL }}",
+  "name": "{{ $page.Params.og_title | default .Site.Title }}",
+  "description": "{{ $page.Params.meta_description | default .Site.Params.description }}",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "{{ .Site.BaseURL }}?s={search_term_string}"
+    },
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+
+{{/* Organization Schema */}}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "CosmeticosKoreanos.co",
+  "url": "{{ .Site.BaseURL }}",
+  "logo": "{{ "logo.webp" | absURL }}",
+  "description": "{{ .Site.Params.description }}",
+  "sameAs": [
+    {{ with .Site.Params.social.instagram }}"https://instagram.com/{{ . }}"{{ end }}
+  ]
+}
+</script>
+
+{{/* Hero Section */}}
+<section class="hero" itemscope itemtype="https://schema.org/WebSite">
+    <meta itemprop="url" content="{{ .Site.BaseURL }}">
+    <meta itemprop="name" content="{{ $page.Params.og_title | default .Site.Title }}">
+    
     <div class="hero__content">
-        <h1 class="hero__title">Guía Definitiva de Cosméticos Coreanos</h1>
-        <p class="hero__subtitle">Descubre los mejores productos K-Beauty, rutinas paso a paso y dónde comprar en Colombia. Todo el skincare coreano en un solo lugar.</p>
+        <h1 class="hero__title" itemprop="headline">{{ $page.Params.title | default "Guía Definitiva de Cosméticos Coreanos" }}</h1>
+        <p class="hero__subtitle" itemprop="description">{{ $page.Params.meta_description | default .Site.Params.description }}</p>
         
-        <div class="hero__stats">
+        <div class="hero__stats" aria-label="Estadísticas del sitio">
             <div class="stat">
                 <span class="stat__number">50+</span>
                 <span class="stat__label">Marcas analizadas</span>
@@ -18,30 +58,48 @@
                 <span class="stat__label">Ciudades de Colombia</span>
             </div>
         </div>
+        
+        {{ if $page.Params.cta_button_text }}
+        <div class="hero__cta">
+            <a href="{{ $page.Params.cta_button_url }}" class="btn btn--primary">{{ $page.Params.cta_button_text }}</a>
+        </div>
+        {{ end }}
     </div>
 </section>
 
-<section class="categories">
-    <h2 class="section__title">Explora por Categoría</h2>
+{{/* Introduction Section */}}
+{{ if $page.Params.intro_title }}
+<section class="intro" itemscope itemtype="https://schema.org/Article">
+    <div class="intro__content">
+        <h2 itemprop="headline">{{ $page.Params.intro_title }}</h2>
+        <p itemprop="articleBody">{{ $page.Params.intro_content }}</p>
+    </div>
+</section>
+{{ end }}
+
+{{/* Categories Section */}}
+<section class="categories" aria-labelledby="categories-heading">
+    <h2 id="categories-heading" class="section__title">Explora por Categoría</h2>
     
-    <div class="categories__grid">
+    <div class="categories__grid" role="list">
         {{ range .Site.Menus.main }}
         {{ if ne .Weight 10 }}
-        <a href="{{ .URL }}" class="category-card">
+        <a href="{{ .URL }}" class="category-card" role="listitem">
             <span class="category-card__title">{{ .Name }}</span>
-            <span class="category-card__arrow">→</span>
+            <span class="category-card__arrow" aria-hidden="true">→</span>
         </a>
         {{ end }}
         {{ end }}
     </div>
 </section>
 
+{{/* Featured Content */}}
 {{ $featured := where .Site.RegularPages "Params.featured" true }}
 {{ if $featured }}
-<section class="featured">
-    <h2 class="section__title">Destacados 2026</h2>
+<section class="featured" aria-labelledby="featured-heading">
+    <h2 id="featured-heading" class="section__title">{{ $page.Params.featured_section_title | default "Destacados 2026" }}</h2>
     
-    <div class="featured__grid">
+    <div class="featured__grid" role="list">
         {{ range first 6 $featured }}
         {{ partial "card.html" . }}
         {{ end }}
@@ -51,15 +109,47 @@
 </section>
 {{ end }}
 
-<section class="newsletter">
-    <div class="newsletter__content">
-        <h2>Únete a la comunidad K-Beauty</h2>
-        <p>Recibe los mejores productos, ofertas y tips de skincare coreano directo a tu correo.</p>
-        
-        <form class="newsletter__form" action="#" method="post">
-            <input type="email" name="email" placeholder="tu@email.com" required class="newsletter__input">
-            <button type="submit" class="btn btn--primary">Suscribirme</button>
-        </form>
+{{/* FAQ Section with Schema */}}
+{{ if $page.Params.faqs }}
+<section class="faq-section" aria-labelledby="faq-heading">
+    <h2 id="faq-heading" class="section__title">{{ $page.Params.faq_title }}</h2>
+    
+    <div itemscope itemtype="https://schema.org/FAQPage">
+        {{ range $page.Params.faqs }}
+        <details class="faq" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+            <summary class="faq__question" itemprop="name">{{ .question }}</summary>
+            <div class="faq__answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                <div itemprop="text">{{ .answer }}</div>
+            </div>
+        </details>
+        {{ end }}
     </div>
 </section>
+{{ end }}
+
+{{/* Newsletter Section */}}
+<section class="newsletter" aria-labelledby="newsletter-heading">
+    <div class="newsletter__content">
+        <h2 id="newsletter-heading">Únete a la comunidad K-Beauty</h2>
+        <p>Recibe los mejores productos, ofertas y tips de skincare coreano directo a tu correo.</p>
+        
+        <form class="newsletter__form" action="#" method="post" aria-label="Formulario de suscripción">
+            <input type="email" name="email" placeholder="tu@email.com" required class="newsletter__input" aria-required="true" aria-label="Correo electrónico">
+            <button type="submit" class="btn btn--primary">Suscribirme</button>
+        </form>
+        <p class="newsletter__disclaimer">Sin spam. Puedes darte de baja en cualquier momento.</p>
+    </div>
+</section>
+
+{{/* Final CTA */}}
+{{ if $page.Params.cta_title }}
+<section class="final-cta" aria-labelledby="cta-heading">
+    <div class="final-cta__content">
+        <h2 id="cta-heading">{{ $page.Params.cta_title }}</h2>
+        <p>{{ $page.Params.cta_description }}</p>
+        <a href="{{ $page.Params.cta_button_url }}" class="btn btn--primary btn--large">{{ $page.Params.cta_button_text }}</a>
+    </div>
+</section>
+{{ end }}
+
 {{ end }}

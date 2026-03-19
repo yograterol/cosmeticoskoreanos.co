@@ -650,3 +650,86 @@ section {
     max-width: 100%;
   }
 }
+
+/* ========================================
+   Homepage Enhancements
+   ======================================== */
+
+/* Intro Section */
+.intro {
+  background: var(--color-surface);
+  padding: var(--space-3xl) 0;
+}
+
+.intro__content {
+  max-width: var(--container-narrow);
+  margin: 0 auto;
+  text-align: center;
+}
+
+.intro__content h2 {
+  font-size: 2rem;
+  margin-bottom: var(--space-lg);
+}
+
+.intro__content p {
+  font-size: 1.125rem;
+  color: var(--color-text-muted);
+  line-height: 1.8;
+}
+
+/* Hero CTA */
+.hero__cta {
+  margin-top: var(--space-xl);
+}
+
+/* FAQ Section */
+.faq-section {
+  background: var(--color-surface);
+  padding: var(--space-3xl) 0;
+}
+
+.faq-section .section__title {
+  text-align: center;
+  margin-bottom: var(--space-2xl);
+}
+
+.faq-section > div {
+  max-width: var(--container-narrow);
+  margin: 0 auto;
+}
+
+/* Final CTA */
+.final-cta {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+  padding: var(--space-3xl) 0;
+  text-align: center;
+  color: white;
+}
+
+.final-cta__content {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.final-cta h2 {
+  color: white;
+  margin-bottom: var(--space-md);
+}
+
+.final-cta p {
+  opacity: 0.9;
+  margin-bottom: var(--space-xl);
+}
+
+.btn--large {
+  padding: var(--space-md) var(--space-2xl);
+  font-size: 1.125rem;
+}
+
+/* Newsletter Disclaimer */
+.newsletter__disclaimer {
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.7);
+  margin-top: var(--space-md);
+}
