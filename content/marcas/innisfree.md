@@ -10,7 +10,7 @@ categories: ["marcas"]
 featured: true
 featured_order: 2
 summary: "Innisfree es la marca de cosméticos coreanos líder en ingredientes naturales. Conoce sus productos estrella con té verde de Jeju, arcilla volcánica y más."
-hero_image: "/images/marcas/innisfree-hero.webp"
+hero_image: ""
 og_image: "/og/marcas-innisfree.webp"
 ---
 
